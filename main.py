@@ -38,6 +38,14 @@ async def get_names(number: int) -> tuple:
     return names_list, email_list
 
 
+def get_phone_number(number_of_people: int):
+    numbers = np.random.randint(999, size=number_of_people)
+    new_numbers = []
+    for number in numbers:
+        new_numbers.append(f"+XXX+{number}+{number}X")
+    return new_numbers
+
+
 def get_loan_details(number_of_people: int):
     columns = ['OLB', 'Installments', 'Arrears']
     balanced_df = pd.DataFrame(columns=columns)
@@ -62,6 +70,7 @@ def get_user_details(number_of_people: int):
 
     user_data_df["Full names"] = details[0][0]
     user_data_df["Email"] = details[0][1]
+    user_data_df["Phone number"] = get_phone_number(number_of_people)
     data_df = user_data_df.join(loan_data_df)
 
-    return data_df.to_json(orient="columns")
+    return data_df.to_json(orient="records")
